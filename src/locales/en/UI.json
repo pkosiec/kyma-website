@@ -3,7 +3,7 @@
     "title": "Kyma",
     "shortDescription": "Cloud-native application development framework",
     "description":
-      "A flexible and easy way to integrate and extend enterprise applications in a cloud-native world"
+      "Open source extensibility framework for cloud native application"
   },
   "navigation": {
     "home": "Home",
@@ -14,7 +14,8 @@
   "socialMedia": {
     "twitter": {
       "name": "Twitter",
-      "url": "https://twitter.com/kymaproject"
+      "url": "https://twitter.com/kymaproject",
+      "username": "kymaproject"
     },
     "github": {
       "name": "GitHub",

@@ -11,8 +11,8 @@ i18n
   .init({
     load: "unspecific",
     fallbackLng: "en",
-    ns: ["translations"],
-    defaultNS: "translations",
+    ns: ["LandingPage", "UI"],
+    defaultNS: "UI",
     debug: false,
     interpolation: {
       escapeValue: false,

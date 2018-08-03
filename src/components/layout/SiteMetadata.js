@@ -1,38 +1,38 @@
 import React from "react";
+import i18n from "../../config/i18n";
 import { Helmet } from "react-helmet";
-import "../../config/i18n";
-import { translate } from "react-i18next";
-import { withPrefix } from "gatsby";
 import Sprites from "./Sprites";
 
-const SiteMetadataComponent = ({ pageId = "", pageName = "", t }) => {
-  const title = `${t("metadata.title")} - ${t("metadata.shortDescription")}`;
-  const description = t("metadata.description");
+const SiteMetadata = ({ pageId = "", pageName = "" }) => {
+  const title = `${i18n.t("metadata.title")} - ${i18n.t(
+    "metadata.shortDescription",
+  )}`;
+  const description = i18n.t("metadata.description");
 
   let pageTitle;
   if (pageId) {
     const pageTitleKey = `navigation.${pageId}`;
-    pageTitle = t(pageTitleKey);
+    pageTitle = i18n.t(pageTitleKey);
   } else {
     pageTitle = pageName;
   }
 
-  const fullSiteTitle = (pageTitle ? `${pageTitle} - ` : "") + title;
+  const fullSiteTitle = (pageTitle ? `${pageTitle} | ` : "") + title;
 
   return (
-    <>
-      <Helmet defer={false}>
+    <div>
+      {/* <Helmet defaultTitle={title} titleTemplate={`%s | ${title}`}>
         <meta name="twitter:title" content={fullSiteTitle} />
         <meta name="twitter:description" content={description} />
         <meta property="og:title" content={fullSiteTitle} />
         <meta property="og:description" content={description} />
-        <title>{fullSiteTitle}</title>
         <meta name="description" content={description} />
-      </Helmet>
+        <meta name="twitter:site" content={`@${i18n.t("socialMedia.twitter.username")}`} />
+        <meta name="og:site_name" content={i18n.t("metadata.title")} />
+      </Helmet> */}
       <Sprites />
-    </>
+    </div>
   );
 };
 
-const SiteMetadata = translate("UI")(SiteMetadataComponent);
 export default SiteMetadata;

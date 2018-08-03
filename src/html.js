@@ -10,11 +10,6 @@ class HTML extends React.Component {
         <head>
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-          <title>Kyma - cloud-native application development framework</title>
-          <meta
-            name="description"
-            content="A flexible and easy way to integrate and extend enterprise applications in a cloud-native world"
-          />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -22,9 +17,9 @@ class HTML extends React.Component {
           <meta name="msapplication-TileColor" content="#2b5797" />
           <meta name="theme-color" content="#ffffff" />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={withPrefix("/kyma-logo.png")} />
+          <meta property="og:image" content={withPrefix("/logo.png")} />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:image" content={withPrefix("/kyma-logo.png")} />
+          <meta name="twitter:image" content={withPrefix("/logo.png")} />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
