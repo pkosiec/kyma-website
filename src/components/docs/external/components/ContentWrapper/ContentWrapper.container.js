@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import ContentWrapper from "./ContentWrapper.component";
 import LoadingIndicator from "../../../../loading/LoadingIndicator";
 import ui from "../../../../../locales/en/UI.json";
-import DocsFetcher from "../../../../../helpers/DocsFetcher";
+import DocsFetcher from "../../../../../api-extensions/DocsLoader";
 import { displayError } from "../../../../../helpers/displayError";
 import Text from "../../../../content/Text";
 import { goToAnchor } from "react-scrollable-anchor";

@@ -1,5 +1,5 @@
 import React from "react";
-import DocsFetcher from "../../helpers/DocsFetcher";
+import DocsFetcher from "../../api-extensions/DocsLoader";
 import MainPage from "./external/components/MainPage/MainPage.component";
 import VersionSwitcher from "./navigation/VersionSwitcher";
 import { Text } from "@kyma-project/react-components";

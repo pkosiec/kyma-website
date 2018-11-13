@@ -30,7 +30,7 @@ async function getDocsVersions(graphql) {
 }
 
 async function createDocsPages({ graphql, createPage }) {
-  const template = path.resolve(`../templates/Documentation.js`);
+  const template = path.resolve(`src/templates/Documentation.js`);
   const versions = await getDocsVersions(graphql);
   if (versions.length === 0) {
     return;
@@ -69,12 +69,12 @@ async function createDocsPages({ graphql, createPage }) {
 }
 
 function populateDocsPages(obj) {
-  if (typeof obj === "object") {
-    return [obj];
+  if (Array.isArray(obj)) {
+    return obj;
   }
 
-  if (typeof obj === "array") {
-    return obj;
+  if (typeof obj === "object") {
+    return [obj];
   }
 
   return [];

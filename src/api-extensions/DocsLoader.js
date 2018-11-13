@@ -1,24 +1,24 @@
-const DOCS_LOCATION = "external/documentation";
+const DOCS_LOCATION = "generated/documentation";
 
 class DocsLoader {
   constructor(version) {
     this.version = version;
   }
 
-  async loadNavigation() {
-    return this.load(`${this.version}/navigation.json`);
+  loadNavigation() {
+    return this.load(`${this.version}/navigation`);
   }
 
-  async loadManifest() {
-    return this.load(`${this.version}/manifest.json`);
+  loadManifest() {
+    return this.load(`${this.version}/manifest`);
   }
 
-  async loadContent(type, id) {
-    return this.load(`${this.version}/${type}/${id}/content.json`);
+  loadContent(type, id) {
+    return this.load(`${this.version}/${type}/${id}/content`);
   }
 
   load(path) {
-    return require(`../../${DOCS_LOCATION}/${path}`);
+    return require(`../../${DOCS_LOCATION}/${path}.json`);
   }
 }
 
