@@ -1,4 +1,4 @@
-const DOCS_LOCATION = "documentation";
+const DOCS_LOCATION = "external/documentation";
 
 class DocsLoader {
   constructor(version) {
@@ -18,7 +18,7 @@ class DocsLoader {
   }
 
   load(path) {
-    return require(`../../static/${DOCS_LOCATION}/${path}`);
+    return require(`../../${DOCS_LOCATION}/${path}`);
   }
 }
 
