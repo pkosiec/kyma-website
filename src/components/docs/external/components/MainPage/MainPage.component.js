@@ -1,11 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { StickyContainer, Sticky } from "react-sticky";
-import ColumnsWrapper from "../ColumnsWrapper/ColumnsWrapper.component";
 import ContentWrapper from "../ContentWrapper/ContentWrapper.container";
 import { goToTop } from "react-scrollable-anchor";
 import NavigationSidebar from "../../../navigation/NavigationSidebar";
 import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../../constants/docs";
+
+const ColumnsWrapper = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
 
 const SideWrapper = styled.div`
   box-sizing: border-box;
