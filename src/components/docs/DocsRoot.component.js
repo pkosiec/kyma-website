@@ -31,6 +31,7 @@ class Docs extends React.PureComponent {
       content,
       currentVersion,
       versions,
+      location,
     } = this.props;
 
     return (
@@ -39,6 +40,7 @@ class Docs extends React.PureComponent {
           topics={navigation}
           manifest={manifest.spec}
           version={currentVersion}
+          location={location}
           versions={versions}
           content={content}
           topNavComponent={

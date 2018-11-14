@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   margin-top: 30px;
 `;
 
-const Documentation = ({ pathContext = {}, ...otherProps }) => {
+const Documentation = ({ pathContext = {}, location, ...otherProps }) => {
   const { displayName } = pathContext;
 
   console.log(otherProps);
@@ -19,7 +19,7 @@ const Documentation = ({ pathContext = {}, ...otherProps }) => {
     <DefaultLayout pageName={displayName}>
       <Helmet />
       <Wrapper>
-        <DocsRoot {...pathContext} />
+        <DocsRoot {...pathContext} location={location} />
       </Wrapper>
     </DefaultLayout>
   );

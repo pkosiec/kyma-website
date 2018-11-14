@@ -113,6 +113,7 @@ function SecondarySubLink(props) {
           if (parentId) {
             hash = `${parentId}-${item.anchor}`;
             isActive =
+              active &&
               active.hash &&
               active.id === rootId &&
               active.hash === `${parentId}-${item.anchor}`;
@@ -122,7 +123,10 @@ function SecondarySubLink(props) {
               : item.anchor;
             hash = `${topicType}-${item.anchor}`;
             isActive =
-              active.hash && active.id === rootId && active.hash === hash;
+              active &&
+              active.hash &&
+              active.id === rootId &&
+              active.hash === hash;
           }
 
           const hasSubElements = item && item.titles && item.titles.length > 0;
@@ -211,16 +215,16 @@ function NavigationList(props) {
                     });
                   }}
                   activeArrow={props.items.root.id === props.activeNav.id}
-                  active={
-                    !props.active.hash &&
-                    props.active.id === props.items.root.id
-                  }
+                  // active={
+                  //   !props.active.hash &&
+                  //   props.active.id === props.items.root.id
+                  // }
                 />
               )}
               <Link
-                active={
-                  !props.active.hash && props.active.id === props.items.root.id
-                }
+                // active={
+                //   !props.active.hash && props.active.id === props.items.root.id
+                // }
                 onClick={() => {
                   onClick(
                     {
@@ -276,13 +280,13 @@ function NavigationList(props) {
                           });
                         }}
                         activeArrow={item.id === props.activeNav.id}
-                        active={
-                          !props.active.hash && props.active.id === item.id
-                        }
+                        // active={
+                        //   !props.active.hash && props.active.id === item.id
+                        // }
                       />
                     )}
                   <Link
-                    active={!props.active.hash && props.active.id === item.id}
+                    // active={!props.active.hash && props.active.id === item.id}
                     onClick={() =>
                       onClick(
                         {
@@ -308,7 +312,7 @@ function NavigationList(props) {
                       items={topics.sections}
                       type="components"
                       rootId={item.id}
-                      active={props.active}
+                      // active={props.active}
                       activeNav={props.activeNav}
                       history={props.history}
                       callbackParent={props.callbackParent}

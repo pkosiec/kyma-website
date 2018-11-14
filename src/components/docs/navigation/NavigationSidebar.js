@@ -86,15 +86,11 @@ class NavigationSidebar extends React.Component {
       topNavComponent,
       items,
       topics,
-      currentContent,
       activeNav,
+      content,
       setActiveNav,
     } = this.props;
 
-    const active = {
-      id: currentContent.id,
-      type: currentContent.type,
-    };
     return (
       <>
         <ToggleSidebarButton
@@ -109,7 +105,7 @@ class NavigationSidebar extends React.Component {
           <NavigationList
             items={items}
             topics={topics}
-            active={active}
+            active={content}
             activeNav={activeNav}
             setActiveNav={setActiveNav}
             version={version}

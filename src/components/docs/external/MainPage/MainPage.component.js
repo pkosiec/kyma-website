@@ -42,59 +42,21 @@ const CenterSideWrapper = styled.div`
   }
 `;
 
-function getRoot(manifest) {
-  if (manifest && manifest.root) {
-    return manifest.root.id;
-  }
-  return null;
-}
-
 class MainPage extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const manifest = props.manifest;
-    const root = getRoot(manifest);
+    const { content, location } = props;
+
     this.state = {
-      active: {
-        id: props.match.params.id || root,
-        type: props.match.params.type || "root",
-        hash: props.location.hash.replace(/#/g, ""),
-      },
       activeNav: {
-        id: props.match.params.id || root,
-        type: props.match.params.type || "root",
-        hash: props.location.hash.replace(/#/g, ""),
+        id: content.id,
+        type: content.type,
+        hash: location.hash.replace(/#/g, ""),
       },
-      navigationList: manifest,
     };
 
     this.navSidebar = React.createRef();
-  }
-
-  chooseActive(activeLink, { hasSubElements }) {
-    this.setState({
-      active: activeLink,
-      activeNav: activeLink,
-    });
-
-    let link = `/${this.props.pageName}`;
-    if (this.props.version !== this.props.latestVersion) {
-      link += `/${this.props.version}`;
-    }
-    link += `/${activeLink.type}/${activeLink.id}`;
-
-    if (activeLink.hash) {
-      link = `${link}#${activeLink.hash}`;
-      this.props.history.replace(link);
-    } else {
-      this.props.history.replace(link);
-    }
-
-    // Hide navigation on Click on mobile
-    if (window.innerWidth < DOCS_RESPONSIVE_BREAKPOINT && !hasSubElements) {
-      this.navSidebar.current && this.navSidebar.current.hide();
-    }
   }
 
   setActiveNav(activeNav) {
@@ -135,10 +97,8 @@ class MainPage extends React.PureComponent {
   }
 
   render() {
-    const { content, topics, version } = this.props;
+    const { content, topics, version, manifest } = this.props;
     const topicItems = topics.topics;
-
-    console.log(content);
 
     return (
       <StickyContainer>
@@ -150,17 +110,13 @@ class MainPage extends React.PureComponent {
                   <NavigationSidebar
                     ref={this.navSidebar}
                     topNavComponent={this.props.topNavComponent}
-                    items={this.state.navigationList}
+                    items={manifest}
                     topics={topicItems}
-                    active={this.state.active}
+                    active={content}
                     activeNav={this.state.activeNav}
-                    callbackParent={(newState, options) => {
-                      this.chooseActive(newState, options);
-                    }}
                     setActiveNav={newState => {
                       this.setActiveNav(newState);
                     }}
-                    history={this.props.history}
                   />
                 </div>
               )}
