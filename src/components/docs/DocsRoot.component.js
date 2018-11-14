@@ -31,8 +31,6 @@ class Docs extends React.PureComponent {
       content,
       currentVersion,
       versions,
-      location,
-      match,
     } = this.props;
 
     return (
@@ -40,11 +38,9 @@ class Docs extends React.PureComponent {
         <MainPage
           topics={navigation}
           manifest={manifest.spec}
-          location={location}
           version={currentVersion}
           versions={versions}
           content={content}
-          match={match}
           topNavComponent={
             <>
               <BackToTop />

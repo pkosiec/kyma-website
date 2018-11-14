@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
-import Docs from "../components/docs/Docs.component";
+import DocsRoot from "../components/docs/DocsRoot.component";
 import DefaultLayout from "../components/layout/DefaultLayout";
 
 const Wrapper = styled.div`
@@ -10,13 +10,8 @@ const Wrapper = styled.div`
   margin-top: 30px;
 `;
 
-const Documentation = ({
-  pageContext = {},
-  location,
-  match,
-  ...otherProps
-}) => {
-  const { displayName } = pageContext;
+const Documentation = ({ pathContext = {}, ...otherProps }) => {
+  const { displayName } = pathContext;
 
   console.log(otherProps);
 
@@ -24,7 +19,7 @@ const Documentation = ({
     <DefaultLayout pageName={displayName}>
       <Helmet />
       <Wrapper>
-        <Docs {...pageContext} location={location} match={match} />
+        <DocsRoot {...pathContext} />
       </Wrapper>
     </DefaultLayout>
   );

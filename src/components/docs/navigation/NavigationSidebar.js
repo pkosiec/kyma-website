@@ -80,6 +80,21 @@ class NavigationSidebar extends React.Component {
     const label = this.state.visible
       ? ui.docs.hideNavigation
       : ui.docs.showNavigation;
+
+    const {
+      version,
+      topNavComponent,
+      items,
+      topics,
+      currentContent,
+      activeNav,
+      setActiveNav,
+    } = this.props;
+
+    const active = {
+      id: currentContent.id,
+      type: currentContent.type,
+    };
     return (
       <>
         <ToggleSidebarButton
@@ -90,15 +105,14 @@ class NavigationSidebar extends React.Component {
           {label}
         </ToggleSidebarButton>
         <SidebarWrapper visible={this.state.visible}>
-          {this.props.topNavComponent}
+          {topNavComponent}
           <NavigationList
-            items={this.props.items}
-            topics={this.props.topics}
-            active={this.props.active}
-            activeNav={this.props.activeNav}
-            callbackParent={this.props.callbackParent}
-            setActiveNav={this.props.setActiveNav}
-            history={this.props.history}
+            items={items}
+            topics={topics}
+            active={active}
+            activeNav={activeNav}
+            setActiveNav={setActiveNav}
+            version={version}
           />
         </SidebarWrapper>
       </>
