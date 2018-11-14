@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { StickyContainer, Sticky } from "react-sticky";
 import DocsContent from "../../DocsContent/DocsContent.container";
-import { goToTop } from "react-scrollable-anchor";
 import NavigationSidebar from "../../navigation/NavigationSidebar";
 import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../constants/docs";
 
@@ -90,7 +89,6 @@ class MainPage extends React.PureComponent {
       this.props.history.replace(link);
     } else {
       this.props.history.replace(link);
-      goToTop();
     }
 
     // Hide navigation on Click on mobile
