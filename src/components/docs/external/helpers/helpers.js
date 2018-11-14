@@ -20,7 +20,5 @@ export const sortBy = (items, sortBy) => {
 };
 
 export const filterWithoutInternal = items => {
-  return [...items].filter(item => {
-    return item.internal && item.internal === true ? false : true;
-  });
+  return [...items].filter(item => !item.internal);
 };

@@ -1,7 +1,7 @@
 import React from "react";
-import ContentWrapper from "./ContentWrapper.component";
+import ContentWrapper from "./DocsContent.component";
 
-const ContentWrapperContainer = ({ content, version }) => {
+const DocsContentContainer = ({ content, version }) => {
   const replaceImagePathsInDocs = (inputContent, ver) => {
     const newContent = { ...inputContent };
     const { type, id } = newContent;
@@ -25,4 +25,4 @@ const ContentWrapperContainer = ({ content, version }) => {
   return <ContentWrapper content={modifiedContent} />;
 };
 
-export default ContentWrapperContainer;
+export default DocsContentContainer;

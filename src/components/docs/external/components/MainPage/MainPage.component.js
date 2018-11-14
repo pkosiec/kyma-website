@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { StickyContainer, Sticky } from "react-sticky";
-import ContentWrapper from "../ContentWrapper/ContentWrapper.container";
+import DocsContent from "../DocsContent/DocsContent.container";
 import { goToTop } from "react-scrollable-anchor";
 import NavigationSidebar from "../../../navigation/NavigationSidebar";
 import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../../constants/docs";
@@ -169,7 +169,7 @@ class MainPage extends React.PureComponent {
             </Sticky>
           </SideWrapper>
           <CenterSideWrapper>
-            <ContentWrapper version={version} content={content} />
+            <DocsContent version={version} content={content} />
           </CenterSideWrapper>
         </ColumnsWrapper>
       </StickyContainer>

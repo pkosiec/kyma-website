@@ -35,10 +35,3 @@ export const ContentDescription = styled.div`
   width: 100%;
   margin: 0;
 `;
-
-export const Anchor = styled.a`
-  display: block;
-  height: 0;
-  overflow: none;
-  visibility: hidden;
-`;
