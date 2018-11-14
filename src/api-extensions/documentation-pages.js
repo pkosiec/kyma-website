@@ -18,7 +18,7 @@ function getDocsVersions(path) {
 // TODO: Refactor to DocsCreator
 function createDocsPages({ createPage }) {
   const template = resolve(`src/templates/Documentation.js`);
-  const versions = getDocsVersions(`generated/documentation`);
+  const versions = getDocsVersions(`static/documentation`);
   if (versions.length === 0) {
     console.error("No docs versions found");
     return;

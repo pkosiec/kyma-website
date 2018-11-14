@@ -1,4 +1,4 @@
-const DOCS_LOCATION = "generated/documentation";
+const DOCS_LOCATION = "static/documentation";
 
 class DocsLoader {
   constructor(version) {
