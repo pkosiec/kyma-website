@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Separator } from "@kyma-project/react-components";
-import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../../constants/docs";
+import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../constants/docs";
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -296,7 +296,8 @@ function NavigationList(props) {
                             topics.sections &&
                             topics.sections.length > 0,
                         },
-                      )}
+                      )
+                    }
                   >
                     {item.displayName}
                   </Link>

@@ -1,7 +1,6 @@
 import React from "react";
 
-import { sortByOrder, filterWithoutInternal } from "../../helpers/helpers";
-import MDContent from "../../../../content/MDContent";
+import MDContent from "../../content/MDContent";
 import { Wrapper, Header, ContentHeader, ContentDescription } from "./styled";
 
 const DocsContent = ({ content }) => {
@@ -10,10 +9,7 @@ const DocsContent = ({ content }) => {
   }
 
   const { docs = [] } = content;
-  const filteredDocs = filterWithoutInternal(docs);
-  const sortedDocs = sortByOrder(filteredDocs);
-
-  let tokenize = name => {
+  const tokenize = name => {
     return name
       .trim()
       .replace(/ /g, "-")
@@ -24,7 +20,7 @@ const DocsContent = ({ content }) => {
     <Wrapper>
       <ContentHeader>{content.displayName}</ContentHeader>
       <ContentDescription>
-        {sortedDocs.map((item, idx) => {
+        {docs.map((item, idx) => {
           const type = item.type || item.title;
           const hash = `${tokenize(type)}-${tokenize(item.title)}`;
 

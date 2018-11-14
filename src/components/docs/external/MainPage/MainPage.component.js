@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { StickyContainer, Sticky } from "react-sticky";
-import DocsContent from "../DocsContent/DocsContent.container";
+import DocsContent from "../../DocsContent/DocsContent.container";
 import { goToTop } from "react-scrollable-anchor";
-import NavigationSidebar from "../../../navigation/NavigationSidebar";
-import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../../constants/docs";
+import NavigationSidebar from "../../navigation/NavigationSidebar";
+import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../constants/docs";
 
 const ColumnsWrapper = styled.div`
   box-sizing: border-box;

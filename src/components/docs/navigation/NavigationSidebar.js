@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import NavigationList from "../external/components/Navigation/NavigationList.component";
+import NavigationList from "../external/Navigation/NavigationList.component";
 import DocsIcon from "./assets/docs-icon.svg";
 import ui from "../../../locales/en/UI.json";
 import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../constants/docs";

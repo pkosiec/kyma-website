@@ -1,5 +1,5 @@
 import React from "react";
-import MainPage from "./external/components/MainPage/MainPage.component";
+import MainPage from "./external/MainPage/MainPage.component";
 import VersionSwitcher from "./navigation/VersionSwitcher";
 import BackToTop from "./navigation/BackToTop";
 
