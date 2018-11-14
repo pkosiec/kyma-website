@@ -1,112 +1,70 @@
-const path = require("path");
+const { resolve, join } = require("path");
+const { readdirSync, statSync } = require("fs");
+
 const compareVersions = require("compare-versions");
 const ui = require("../locales/en/UI.json");
 const DocsLoader = require("./DocsLoader");
 
-// FIXME: Do not use  GraphQL, use Node.js instead
-async function getDocsVersions(graphql) {
-  const result = await graphql(`
-    {
-      allDirectory(
-        filter: {
-          relativePath: { regex: "/^[^/]+$/" }
-          sourceInstanceName: { eq: "docs" }
-        }
-      ) {
-        edges {
-          node {
-            relativePath
-          }
-        }
-      }
-    }
-  `);
-
-  const edges = result.data.allDirectory.edges || [];
-  const versions = edges
-    .map(edge => edge.node.relativePath)
-    .sort(compareVersions)
-    .reverse();
-
+function getDocsVersions(path) {
+  const subdirectories = readdirSync(resolve(path)).filter(file =>
+    statSync(join(path, file)).isDirectory(),
+  );
+  const versions = subdirectories.sort(compareVersions).reverse();
   return versions;
 }
 
-async function createDocsPages({ graphql, createPage }) {
-  const template = path.resolve(`src/templates/Documentation.js`);
-  const versions = await getDocsVersions(graphql);
+// TODO: Refactor to DocsCreator
+function createDocsPages({ createPage }) {
+  const template = resolve(`src/templates/Documentation.js`);
+  const versions = getDocsVersions(`generated/documentation`);
   if (versions.length === 0) {
+    console.error("No docs versions found");
     return;
   }
 
-  // Main /docs page
   const latestVersion = versions[0];
-
   const loader = new DocsLoader(latestVersion);
-  const navigation = loader.loadNavigation();
-  const manifest = loader.loadManifest();
 
-  //TODO: Refactor
-  // FIXME: not root, just first key + first item id
-  const latestVersionContent = loader.loadContent(
-    "root",
-    manifest.spec.root.id,
-  );
-  createPage({
-    path: `/docs`,
-    component: template,
-    context: {
+  try {
+    createMainDocsPage({
+      version: latestVersion,
       displayName: ui.navigation.documentation,
-      content: latestVersionContent,
-      navigation,
-      manifest,
-    },
-  });
+      path: `/docs`,
+      template,
+      createPage,
+      loader,
+    });
+  } catch (err) {
+    console.error(err);
+    return;
+  }
 
   versions.forEach(version => {
     const loader = new DocsLoader(version);
 
-    const navigation = loader.loadNavigation();
-    const manifest = loader.loadManifest();
-
-    if (!manifest.spec) {
-      console.error(`Incorrect manifest for version ${version}`);
+    try {
+      createMainDocsPage({
+        path: `/docs/${version}`,
+        displayName: `${version} - ${ui.navigation.documentation}`,
+        version,
+        template,
+        createPage,
+        loader,
+      });
+    } catch (err) {
+      console.error(err);
       return;
     }
 
-    // main version page
-
-    // FIXME: not root, just first key + first item id
-    const versionContent = loader.loadContent("root", manifest.spec.root.id);
-    createPage({
-      path: `/docs/${version}`,
-      component: template,
-      context: {
-        displayName: `${version} - ${ui.navigation.documentation}`,
-        content: versionContent,
-        navigation,
-        manifest,
-      },
-    });
-
-    // subpages
-
-    Object.keys(manifest.spec).forEach(contentType => {
-      const obj = manifest.spec[contentType];
-      const pages = populateDocsPages(obj);
-
-      pages.forEach(page => {
-        content = loader.loadContent(contentType, page.id);
-
-        createPage({
-          path: `/docs/${version}/${contentType}/${page.id}`,
-          component: template,
-          context: {
-            displayName: `${page.displayName} - ${ui.navigation.documentation}`,
-            content,
-            navigation,
-          },
-        });
-      });
+    const manifest = loader.loadManifest();
+    const navigation = loader.loadNavigation();
+    createDocsSubpages({
+      version,
+      manifest,
+      createPage,
+      loader,
+      navigation,
+      template,
     });
   });
 }
@@ -121,6 +79,93 @@ function populateDocsPages(obj) {
   }
 
   return [];
+}
+
+function getFirstTopicId(typeObj) {
+  let id;
+  if (Array.isArray(typeObj) && typeObj.length > 0) {
+    id = typeObj[0].id;
+  } else if (typeof typeObj === "object") {
+    id = typeObj.id;
+  }
+
+  return id;
+}
+
+function getFirstDocType(manifest) {
+  const specKeys = Object.keys(manifest.spec);
+  if (specKeys.length === 0) {
+    return;
+  }
+
+  return specKeys[0];
+}
+
+function createMainDocsPage({
+  version,
+  path,
+  template,
+  displayName,
+  createPage,
+  loader,
+}) {
+  const navigation = loader.loadNavigation();
+  const manifest = loader.loadManifest();
+
+  if (!manifest.spec) {
+    throw new Error(`Incorrect manifest for version ${version}`);
+  }
+
+  const type = getFirstDocType(manifest);
+  if (!type) {
+    throw new Error(`No spec keys detected. Skipping version ${version}`);
+  }
+
+  const id = getFirstTopicId(manifest.spec[type]);
+  if (typeof id === "undefined") {
+    throw new Error(`Couldn't find id for type ${type}`);
+  }
+
+  const content = loader.loadContent(type, id);
+  createPage({
+    path,
+    component: template,
+    context: {
+      content,
+      displayName,
+      navigation,
+      manifest,
+    },
+  });
+}
+
+function createDocsSubpages({
+  version,
+  manifest,
+  createPage,
+  loader,
+  template,
+}) {
+  const navigation = loader.loadNavigation();
+
+  Object.keys(manifest.spec).forEach(contentType => {
+    const obj = manifest.spec[contentType];
+    const pages = populateDocsPages(obj);
+
+    pages.forEach(page => {
+      content = loader.loadContent(contentType, page.id);
+
+      createPage({
+        path: `/docs/${version}/${contentType}/${page.id}`,
+        component: template,
+        context: {
+          displayName: `${page.displayName} - ${ui.navigation.documentation}`,
+          content,
+          navigation,
+        },
+      });
+    });
+  });
 }
 
 module.exports = createDocsPages;
