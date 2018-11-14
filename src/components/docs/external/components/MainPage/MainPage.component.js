@@ -129,12 +129,10 @@ class MainPage extends React.PureComponent {
   }
 
   render() {
-    let topics = null;
-    if (!this.props.topics.loading) {
-      if (this.props.topics.topics) {
-        topics = this.props.topics.topics;
-      }
-    }
+    const { content, topics, version } = this.props;
+    const topicItems = topics.topics;
+
+    console.log(content);
 
     return (
       <StickyContainer>
@@ -147,7 +145,7 @@ class MainPage extends React.PureComponent {
                     ref={this.navSidebar}
                     topNavComponent={this.props.topNavComponent}
                     items={this.state.navigationList}
-                    topics={topics}
+                    topics={topicItems}
                     active={this.state.active}
                     activeNav={this.state.activeNav}
                     callbackParent={(newState, options) => {
@@ -163,12 +161,7 @@ class MainPage extends React.PureComponent {
             </Sticky>
           </SideWrapper>
           <CenterSideWrapper>
-            <ContentWrapper
-              latestVersion={this.props.latestVersion}
-              version={this.props.version}
-              versions={this.props.versions}
-              item={this.state.active}
-            />
+            <ContentWrapper version={version} content={content} />
           </CenterSideWrapper>
         </ColumnsWrapper>
       </StickyContainer>

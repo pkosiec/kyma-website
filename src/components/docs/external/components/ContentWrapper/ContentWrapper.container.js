@@ -17,8 +17,7 @@ export default class extends React.PureComponent {
     };
   }
   async componentDidMount() {
-    const { type, id, hash } = this.props.item;
-    await this.updateContent(this.props.version, type, id);
+    const { type, id, hash } = this.props.content;
     goToAnchor(hash);
   }
 
@@ -26,7 +25,7 @@ export default class extends React.PureComponent {
     const { version, item } = newProps;
     const { type, id, hash } = item;
 
-    const currentItem = { ...this.props.item };
+    const currentItem = { ...this.props.content };
 
     if (
       type !== currentItem.type ||
@@ -44,36 +43,12 @@ export default class extends React.PureComponent {
     }
   }
 
-  updateContent = async (version, type, id) => {
-    const versions = this.props.versions;
-    const latest = this.props.latestVersion;
-    const docsFetcher = new DocsFetcher(latest, version, versions);
-    let content;
-    let err;
-    try {
-      content = await docsFetcher.fetchContent(type, id);
-      content.docs = this.replaceImagePaths(content.docs, {
-        version: docsFetcher.version,
-        type,
-        id,
-      });
-    } catch (e) {
-      err = e;
-    }
-
-    this.setState({
-      loading: false,
-      content,
-      error: err,
-    });
-  };
-
   replaceImagePaths = (inputDocs, { version, type, id }) => {
     return inputDocs.map(doc => {
       if (doc.source.search(/.?\/?assets/g) !== -1) {
         doc.source = doc.source.replace(
           /src="\.?\/?assets/g,
-          `src="/documentation/${version}/${type}/${id}/assets`,
+          `src="/docs-src/${version}/${type}/${id}/assets`,
         );
       }
 
@@ -82,22 +57,17 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    if (this.state.loading) {
-      return <LoadingIndicator />;
-    }
+    const { content, version } = this.props;
+    const contentCpy = { ...content };
+    contentCpy.docs = this.replaceImagePaths(contentCpy.docs, {
+      version: version,
+      type: content.type,
+      id: content.id,
+    });
 
-    const error = this.state.error;
-    if (error) {
-      return <Text>{displayError(error)}</Text>;
-    }
-
-    const content = this.state.content;
     return (
       <>
-        <Helmet
-          title={`${content.displayName} - ${ui.navigation.documentation}`}
-        />
-        <ContentWrapper content={content} {...this.props} />
+        <ContentWrapper content={contentCpy} {...this.props} />
       </>
     );
   }

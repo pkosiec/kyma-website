@@ -10,21 +10,21 @@ const Wrapper = styled.div`
   margin-top: 30px;
 `;
 
-const Documentation = props => {
-  console.log(props);
-  //   const { latestVersion, versions, pageName, ...otherProps } = props;
+const Documentation = ({
+  pageContext = {},
+  location,
+  match,
+  ...otherProps
+}) => {
+  const { displayName } = pageContext;
+
+  console.log(otherProps);
 
   return (
-    <DefaultLayout pageId="documentation">
+    <DefaultLayout pageName={displayName}>
       <Helmet />
       <Wrapper>
-        {JSON.stringify(props)}
-        {/* <Docs
-          latestVersion={latestVersion}
-          versions={versions}
-          pageName={pageName}
-          {...otherProps}
-        /> */}
+        <Docs {...pageContext} location={location} match={match} />
       </Wrapper>
     </DefaultLayout>
   );

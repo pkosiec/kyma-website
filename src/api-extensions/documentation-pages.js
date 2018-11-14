@@ -5,6 +5,8 @@ const compareVersions = require("compare-versions");
 const ui = require("../locales/en/UI.json");
 const DocsLoader = require("./DocsLoader");
 
+const DOCS_PATH_NAME = "docs";
+
 function getDocsVersions(path) {
   const subdirectories = readdirSync(resolve(path)).filter(file =>
     statSync(join(path, file)).isDirectory(),
@@ -28,8 +30,9 @@ function createDocsPages({ createPage }) {
   try {
     createMainDocsPage({
       version: latestVersion,
+      versions,
       displayName: ui.navigation.documentation,
-      path: `/docs`,
+      path: `/${DOCS_PATH_NAME}`,
       template,
       createPage,
       loader,
@@ -44,9 +47,10 @@ function createDocsPages({ createPage }) {
 
     try {
       createMainDocsPage({
-        path: `/docs/${version}`,
+        path: `/${DOCS_PATH_NAME}/${version}`,
         displayName: `${version} - ${ui.navigation.documentation}`,
         version,
+        versions,
         template,
         createPage,
         loader,
@@ -60,6 +64,7 @@ function createDocsPages({ createPage }) {
     const navigation = loader.loadNavigation();
     createDocsSubpages({
       version,
+      versions,
       manifest,
       createPage,
       loader,
@@ -103,6 +108,7 @@ function getFirstDocType(manifest) {
 
 function createMainDocsPage({
   version,
+  versions,
   path,
   template,
   displayName,
@@ -131,6 +137,8 @@ function createMainDocsPage({
     path,
     component: template,
     context: {
+      currentVersion: version,
+      versions,
       content,
       displayName,
       navigation,
@@ -141,6 +149,7 @@ function createMainDocsPage({
 
 function createDocsSubpages({
   version,
+  versions,
   manifest,
   createPage,
   loader,
@@ -156,12 +165,14 @@ function createDocsSubpages({
       content = loader.loadContent(contentType, page.id);
 
       createPage({
-        path: `/docs/${version}/${contentType}/${page.id}`,
+        path: `/${DOCS_PATH_NAME}/${version}/${contentType}/${page.id}`,
         component: template,
         context: {
           displayName: `${page.displayName} - ${ui.navigation.documentation}`,
           content,
           navigation,
+          currentVersion: version,
+          versions,
         },
       });
     });
