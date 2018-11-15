@@ -44,6 +44,7 @@ function createDocsPages({ createPage }) {
 
   versions.forEach(version => {
     const loader = new DocsLoader(version);
+    console.log("version", version);
 
     try {
       createMainDocsPage({
@@ -173,6 +174,7 @@ function createDocsSubpages({
           navigation,
           currentVersion: version,
           versions,
+          manifest,
         },
       });
     });
