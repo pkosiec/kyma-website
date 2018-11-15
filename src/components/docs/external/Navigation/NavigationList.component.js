@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Separator } from "@kyma-project/react-components";
 import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../constants/docs";
 
 const Wrapper = styled.div`
@@ -10,6 +9,15 @@ const Wrapper = styled.div`
   @media (max-width: ${DOCS_RESPONSIVE_BREAKPOINT}px) {
     max-height: calc(100vh - 140px);
   }
+`;
+
+const Separator = styled.div`
+  box-sizing: border-box;
+  display: block;
+  height: ${props => (props.height ? props.height : "1px")};
+  opacity: 0.1;
+  background-color: #000000;
+  margin: ${props => (props.margin ? props.margin : "0")};
 `;
 
 const NavigationContainer = styled.div`
