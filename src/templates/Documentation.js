@@ -10,16 +10,14 @@ const Wrapper = styled.div`
   margin-top: 30px;
 `;
 
-const Documentation = ({ pathContext = {}, location, ...otherProps }) => {
-  const { displayName } = pathContext;
-
-  console.log(otherProps);
+const Documentation = ({ pageContext = {}, location, ...otherProps }) => {
+  const { displayName } = pageContext;
 
   return (
     <DefaultLayout pageName={displayName}>
       <Helmet />
       <Wrapper>
-        <DocsRoot {...pathContext} location={location} />
+        <DocsRoot {...pageContext} location={location} />
       </Wrapper>
     </DefaultLayout>
   );

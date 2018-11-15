@@ -3,18 +3,12 @@ import React from "react";
 import MDContent from "../../content/MDContent";
 import { Wrapper, Header, ContentHeader, ContentDescription } from "./styled";
 
-const DocsContent = ({ content }) => {
+const DocsContent = ({ content, tokenize }) => {
   if (!content) {
     return null;
   }
 
   const { docs = [] } = content;
-  const tokenize = name => {
-    return name
-      .trim()
-      .replace(/ /g, "-")
-      .toLowerCase();
-  };
 
   return (
     <Wrapper>
