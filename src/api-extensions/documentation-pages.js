@@ -4,8 +4,7 @@ const { readdirSync, statSync } = require("fs");
 const compareVersions = require("compare-versions");
 const ui = require("../locales/en/UI.json");
 const DocsLoader = require("./DocsLoader");
-
-const DOCS_PATH_NAME = "docs";
+const { DOCS_PATH_NAME } = require("../constants/docs");
 
 function getDocsVersions(path) {
   const subdirectories = readdirSync(resolve(path)).filter(file =>

@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "gatsby";
 import styled from "styled-components";
-import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../constants/docs";
+import {
+  DOCS_RESPONSIVE_BREAKPOINT,
+  DOCS_PATH_NAME,
+} from "../../../../constants/docs";
+import { getDocsPath } from "../../../../helpers/docsPath";
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -208,7 +212,7 @@ function SecondarySubLink(props) {
 function NavigationList(props) {
   const getPathLink = (version => {
     return ({ id, type, hash }) => {
-      return `/docs/${version}/${type}/${id}${hash ? `#${hash}` : ""}`;
+      return getDocsPath(version, { type, id, hash });
     };
   })(props.currentVersion);
 
