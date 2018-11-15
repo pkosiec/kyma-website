@@ -42,7 +42,7 @@ const CenterSideWrapper = styled.div`
   }
 `;
 
-class MainPage extends React.PureComponent {
+class MainPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -97,7 +97,7 @@ class MainPage extends React.PureComponent {
   }
 
   render() {
-    const { content, topics, version, manifest } = this.props;
+    const { content, topics, currentVersion, manifest } = this.props;
     const topicItems = topics.topics;
 
     return (
@@ -113,6 +113,7 @@ class MainPage extends React.PureComponent {
                     items={manifest}
                     topics={topicItems}
                     active={content}
+                    currentVersion={currentVersion}
                     activeNav={this.state.activeNav}
                     setActiveNav={newState => {
                       this.setActiveNav(newState);
@@ -123,7 +124,7 @@ class MainPage extends React.PureComponent {
             </Sticky>
           </SideWrapper>
           <CenterSideWrapper>
-            <DocsContent version={version} content={content} />
+            <DocsContent version={currentVersion} content={content} />
           </CenterSideWrapper>
         </ColumnsWrapper>
       </StickyContainer>

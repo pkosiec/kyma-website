@@ -1,13 +1,20 @@
 import React from "react";
 
 import MDContent from "../../content/MDContent";
-import { Wrapper, Header, ContentHeader, ContentDescription } from "./styled";
+import {
+  Anchor,
+  Wrapper,
+  Header,
+  ContentHeader,
+  ContentDescription,
+} from "./styled";
 
 const DocsContent = ({ content, tokenize }) => {
   if (!content) {
     return null;
   }
 
+  let lastTypeHash;
   const { docs = [] } = content;
 
   return (
@@ -16,10 +23,17 @@ const DocsContent = ({ content, tokenize }) => {
       <ContentDescription>
         {docs.map((item, idx) => {
           const type = item.type || item.title;
-          const hash = `${tokenize(type)}-${tokenize(item.title)}`;
+          const tokenizedType = tokenize(type);
+          const hash = `${tokenizedType}-${tokenize(item.title)}`;
+
+          const currentTypeHash = `${tokenizedType}-${tokenizedType}`;
+          const isFirstOfType = lastTypeHash !== currentTypeHash;
+          lastTypeHash = currentTypeHash;
 
           return (
             <div key={idx}>
+              {isFirstOfType &&
+                currentTypeHash !== hash && <Anchor id={currentTypeHash} />}
               <Header id={hash}>{item.title}</Header>
               <MDContent html={item.source} />
             </div>

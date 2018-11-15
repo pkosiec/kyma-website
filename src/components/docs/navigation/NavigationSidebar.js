@@ -82,7 +82,7 @@ class NavigationSidebar extends React.Component {
       : ui.docs.showNavigation;
 
     const {
-      version,
+      currentVersion,
       topNavComponent,
       items,
       topics,
@@ -108,7 +108,7 @@ class NavigationSidebar extends React.Component {
             active={content}
             activeNav={activeNav}
             setActiveNav={setActiveNav}
-            version={version}
+            currentVersion={currentVersion}
           />
         </SidebarWrapper>
       </>

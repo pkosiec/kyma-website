@@ -7,6 +7,13 @@ export const Wrapper = styled.div`
   text-align: left;
 `;
 
+export const Anchor = styled.a`
+  display: block;
+  height: 0;
+  overflow: none;
+  visibility: hidden;
+`;
+
 export const Header = styled.h1`
   font-size: 34px;
   font-weight: 600;

@@ -3,7 +3,7 @@ import MainPage from "./external/MainPage/MainPage.component";
 import VersionSwitcher from "./navigation/VersionSwitcher";
 import BackToTop from "./navigation/BackToTop";
 
-class Docs extends React.PureComponent {
+class Docs extends React.Component {
   changeVersion = async e => {
     const newVersion = e.target.value;
 
@@ -39,7 +39,7 @@ class Docs extends React.PureComponent {
         <MainPage
           topics={navigation}
           manifest={manifest.spec}
-          version={currentVersion}
+          currentVersion={currentVersion}
           location={location}
           versions={versions}
           content={content}
