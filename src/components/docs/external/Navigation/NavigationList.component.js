@@ -110,6 +110,7 @@ function SecondarySubLink(props) {
     active,
     activeNav,
     getPathLink,
+    onLinkClick,
   } = props;
 
   let setActiveNav = clickedItem => {
@@ -180,6 +181,7 @@ function SecondarySubLink(props) {
                     type: type,
                     hash: hash,
                   })}
+                  onClick={() => onLinkClick(hasSubElements)}
                 >
                   {item.name}
                 </StyledLink>
@@ -192,6 +194,7 @@ function SecondarySubLink(props) {
                   rootId={rootId}
                   parentId={item.anchor}
                   active={active}
+                  onLinkClick={onLinkClick}
                   activeNav={activeNav}
                 />
               )}
@@ -212,6 +215,8 @@ function NavigationList(props) {
   let setActiveNav = clickedItem => {
     props.setActiveNav(clickedItem);
   };
+
+  const { onLinkClick } = props;
 
   return (
     <Wrapper>
@@ -244,6 +249,9 @@ function NavigationList(props) {
                   type: "root",
                   hash: "",
                 })}
+                onClick={() =>
+                  onLinkClick(props.topics && props.topics.length > 0)
+                }
               >
                 {props.items.root.displayName}
               </StyledLink>
@@ -260,6 +268,7 @@ function NavigationList(props) {
                 activeNav={props.activeNav}
                 setActiveNav={props.setActiveNav}
                 getPathLink={getPathLink}
+                onLinkClick={onLinkClick}
               />
             )}
           </Item>
@@ -300,6 +309,11 @@ function NavigationList(props) {
                       type: "components",
                       hash: "",
                     })}
+                    onClick={() =>
+                      onLinkClick(
+                        topics && topics.sections && topics.sections.length > 0,
+                      )
+                    }
                   >
                     {item.displayName}
                   </StyledLink>
@@ -313,6 +327,7 @@ function NavigationList(props) {
                       // active={props.active}
                       activeNav={props.activeNav}
                       getPathLink={getPathLink}
+                      onLinkClick={onLinkClick}
                       setActiveNav={props.setActiveNav}
                     />
                   )}

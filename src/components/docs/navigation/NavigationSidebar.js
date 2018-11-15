@@ -48,7 +48,7 @@ const SidebarWrapper = styled.div`
 
 class NavigationSidebar extends React.Component {
   state = {
-    visible: true,
+    visible: window.innerWidth > DOCS_RESPONSIVE_BREAKPOINT,
   };
 
   componentDidMount() {
@@ -89,6 +89,7 @@ class NavigationSidebar extends React.Component {
       activeNav,
       content,
       setActiveNav,
+      onLinkClick,
     } = this.props;
 
     return (
@@ -109,6 +110,7 @@ class NavigationSidebar extends React.Component {
             activeNav={activeNav}
             setActiveNav={setActiveNav}
             currentVersion={currentVersion}
+            onLinkClick={onLinkClick}
           />
         </SidebarWrapper>
       </>
