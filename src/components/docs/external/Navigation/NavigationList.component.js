@@ -1,11 +1,11 @@
+// TODO: This component has been moved from console repository and it has to be rewritten
+
 import React from "react";
 import { Link } from "gatsby";
 import styled from "styled-components";
-import {
-  DOCS_RESPONSIVE_BREAKPOINT,
-  DOCS_PATH_NAME,
-} from "../../../../constants/docs";
+import { DOCS_RESPONSIVE_BREAKPOINT } from "../../../../constants/docs";
 import { getDocsPath } from "../../../../helpers/docsPath";
+import { tokenize } from "../../../../helpers/tokenize";
 
 const Wrapper = styled.div`
   overflow-y: auto;
@@ -91,7 +91,9 @@ const Arrow = styled.a`
         : "translateY(-50%)"};
   }
 `;
-const StyledLink = styled(Link)`
+const StyledLink = styled(({ active, ...otherProps }) => (
+  <Link {...otherProps} />
+))`
   color: ${props => (props.active ? ACTIVE_COLOR : "#485766")};
   font-size: 14px;
   font-weight: ${props => (props.bold ? "bold" : "normal")};
@@ -111,15 +113,16 @@ function SecondarySubLink(props) {
     parentId,
     type,
     items,
-    active,
     activeNav,
     getPathLink,
     onLinkClick,
+    currentContent,
   } = props;
 
   let setActiveNav = clickedItem => {
     props.setActiveNav(clickedItem);
   };
+
   const isActiveNav = parentId
     ? activeNav.id === rootId &&
       activeNav.hash &&
@@ -129,25 +132,16 @@ function SecondarySubLink(props) {
   return (
     <Items secondary marginTop show={isActiveNav}>
       {items &&
-        items.map((item, index) => {
-          let hash, isActive, topicType;
+        items.map(item => {
+          const isActive = false; //TODO: Implement scroll spy
+          let hash, topicType;
           if (parentId) {
             hash = `${parentId}-${item.anchor}`;
-            isActive =
-              active &&
-              active.hash &&
-              active.id === rootId &&
-              active.hash === `${parentId}-${item.anchor}`;
           } else {
             topicType = item.topicType
               ? item.topicType.replace(/ /g, "-").toLowerCase()
               : item.anchor;
             hash = `${topicType}-${item.anchor}`;
-            isActive =
-              active &&
-              active.hash &&
-              active.id === rootId &&
-              active.hash === hash;
           }
 
           const hasSubElements = item && item.titles && item.titles.length > 0;
@@ -197,9 +191,9 @@ function SecondarySubLink(props) {
                   getPathLink={getPathLink}
                   rootId={rootId}
                   parentId={item.anchor}
-                  active={active}
                   onLinkClick={onLinkClick}
                   activeNav={activeNav}
+                  currentContent={currentContent}
                 />
               )}
             </Item>
@@ -216,11 +210,25 @@ function NavigationList(props) {
     };
   })(props.currentVersion);
 
+  const isLinkActive = (() => {
+    return ({ id, type }) => {
+      const content = props.currentContent;
+      return (
+        tokenize(id) === tokenize(content.id) &&
+        tokenize(type) === tokenize(content.type)
+      );
+    };
+  })();
+
   let setActiveNav = clickedItem => {
     props.setActiveNav(clickedItem);
   };
 
   const { onLinkClick } = props;
+
+  const rootId = props.items.root.id;
+  const rootType = "root";
+  const componentsType = "components";
 
   return (
     <Wrapper>
@@ -232,25 +240,26 @@ function NavigationList(props) {
                 <Arrow
                   onClick={() => {
                     setActiveNav({
-                      id: props.items.root.id,
-                      type: "root",
+                      id: rootId,
+                      type: rootType,
                       hash: "",
                     });
                   }}
-                  activeArrow={props.items.root.id === props.activeNav.id}
-                  // active={
-                  //   !props.active.hash &&
-                  //   props.active.id === props.items.root.id
-                  // }
+                  activeArrow={rootId === props.activeNav.id}
+                  active={isLinkActive({
+                    id: rootId,
+                    type: rootType,
+                  })}
                 />
               )}
               <StyledLink
-                // active={
-                //   !props.active.hash && props.active.id === props.items.root.id
-                // }
+                active={isLinkActive({
+                  id: rootId,
+                  type: rootType,
+                })}
                 to={getPathLink({
-                  id: props.items.root.id,
-                  type: "root",
+                  id: rootId,
+                  type: rootType,
                   hash: "",
                 })}
                 onClick={() =>
@@ -262,17 +271,15 @@ function NavigationList(props) {
             </LinkWrapper>
             {props.topics && (
               <SecondarySubLink
-                items={
-                  props.topics.find(obj => obj.id === props.items.root.id)
-                    .sections
-                }
-                type="root"
+                items={props.topics.find(obj => obj.id === rootId).sections}
+                type={rootType}
                 rootId={props.items.root.id}
-                active={props.active}
+                isLinkActive={isLinkActive}
                 activeNav={props.activeNav}
                 setActiveNav={props.setActiveNav}
                 getPathLink={getPathLink}
                 onLinkClick={onLinkClick}
+                currentContent={props.currentContent}
               />
             )}
           </Item>
@@ -296,21 +303,25 @@ function NavigationList(props) {
                         onClick={() => {
                           setActiveNav({
                             id: item.id,
-                            type: "components",
+                            type: componentsType,
                             hash: "",
                           });
                         }}
                         activeArrow={item.id === props.activeNav.id}
-                        // active={
-                        //   !props.active.hash && props.active.id === item.id
-                        // }
+                        active={isLinkActive({
+                          id: item.id,
+                          type: componentsType,
+                        })}
                       />
                     )}
                   <StyledLink
-                    // active={!props.active.hash && props.active.id === item.id}
+                    active={isLinkActive({
+                      id: item.id,
+                      type: componentsType,
+                    })}
                     to={getPathLink({
                       id: item.id,
-                      type: "components",
+                      type: componentsType,
                       hash: "",
                     })}
                     onClick={() =>
@@ -326,13 +337,14 @@ function NavigationList(props) {
                   topics.sections && (
                     <SecondarySubLink
                       items={topics.sections}
-                      type="components"
+                      type={componentsType}
                       rootId={item.id}
-                      // active={props.active}
+                      isLinkActive={isLinkActive}
                       activeNav={props.activeNav}
                       getPathLink={getPathLink}
                       onLinkClick={onLinkClick}
                       setActiveNav={props.setActiveNav}
+                      currentContent={props.currentContent}
                     />
                   )}
               </Item>

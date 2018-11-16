@@ -87,7 +87,7 @@ class NavigationSidebar extends React.Component {
       items,
       topics,
       activeNav,
-      content,
+      currentContent,
       setActiveNav,
       onLinkClick,
     } = this.props;
@@ -106,7 +106,7 @@ class NavigationSidebar extends React.Component {
           <NavigationList
             items={items}
             topics={topics}
-            active={content}
+            currentContent={currentContent}
             activeNav={activeNav}
             setActiveNav={setActiveNav}
             currentVersion={currentVersion}

@@ -19,26 +19,24 @@ const DocsRoot = ({
   };
 
   return (
-    <>
-      <MainPage
-        topics={navigation}
-        manifest={manifest.spec}
-        currentVersion={currentVersion}
-        location={location}
-        versions={versions}
-        content={content}
-        topNavComponent={
-          <>
-            <BackToTop />
-            <VersionSwitcher
-              versions={versions}
-              currentVersion={currentVersion}
-              onChange={changeVersion}
-            />
-          </>
-        }
-      />
-    </>
+    <MainPage
+      topics={navigation}
+      manifest={manifest.spec}
+      currentVersion={currentVersion}
+      location={location}
+      versions={versions}
+      content={content}
+      topNavComponent={
+        <>
+          <BackToTop />
+          <VersionSwitcher
+            versions={versions}
+            currentVersion={currentVersion}
+            onChange={changeVersion}
+          />
+        </>
+      }
+    />
   );
 };
 

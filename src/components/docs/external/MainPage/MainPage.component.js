@@ -1,3 +1,5 @@
+// TODO: This component has been moved from console repository and it has to be rewritten
+
 import React from "react";
 import styled from "styled-components";
 import { StickyContainer, Sticky } from "react-sticky";
@@ -104,7 +106,7 @@ class MainPage extends React.Component {
   }
 
   render() {
-    const { content, topics, currentVersion, manifest } = this.props;
+    const { content, topics, currentVersion, manifest, location } = this.props;
     const topicItems = topics.topics;
 
     return (
@@ -119,7 +121,8 @@ class MainPage extends React.Component {
                     topNavComponent={this.props.topNavComponent}
                     items={manifest}
                     topics={topicItems}
-                    active={content}
+                    currentContent={content}
+                    location={location}
                     currentVersion={currentVersion}
                     activeNav={this.state.activeNav}
                     setActiveNav={newState => {
